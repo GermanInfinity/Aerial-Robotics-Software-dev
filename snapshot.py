@@ -5,8 +5,10 @@ from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtWidgets import (QApplication, QFileDialog, QHBoxLayout, QLabel,
         QPushButton, QSizePolicy, QSlider, QStyle, QVBoxLayout, QWidget)
 from PyQt5.QtWidgets import QMainWindow,QWidget, QPushButton, QAction
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPixmap
+from PIL import Image
 import sys, pyautogui
+from VideoFrameGrabber import VideoFrameGrabber
 
 class VideoWindow(QMainWindow):
 
@@ -16,7 +18,7 @@ class VideoWindow(QMainWindow):
 
         self.mediaPlayer = QMediaPlayer(None, QMediaPlayer.VideoSurface)
 
-        videoWidget = QVideoWidget()
+        self.videoWidget = QVideoWidget()
 
         self.playButton = QPushButton()
         self.playButton.setEnabled(False)
@@ -57,6 +59,7 @@ class VideoWindow(QMainWindow):
 
         # Create a widget for window contents
         wid = QWidget(self)
+        self.g = wid
         self.setCentralWidget(wid)
 
         # Create layouts to place inside widget
@@ -67,14 +70,14 @@ class VideoWindow(QMainWindow):
         controlLayout.addWidget(self.positionSlider)
 
         layout = QVBoxLayout()
-        layout.addWidget(videoWidget)
+        layout.addWidget(self.videoWidget)
         layout.addLayout(controlLayout)
         layout.addWidget(self.errorLabel)
 
         # Set widget to contain window contents
         wid.setLayout(layout)
 
-        self.mediaPlayer.setVideoOutput(videoWidget)
+        self.mediaPlayer.setVideoOutput(self.videoWidget)
         #self.mediaPlayer.stateChanged.connect(self.mediaStateChanged)
         self.mediaPlayer.positionChanged.connect(self.positionChanged)
         self.mediaPlayer.durationChanged.connect(self.durationChanged)
@@ -98,16 +101,26 @@ class VideoWindow(QMainWindow):
             self.mediaPlayer.pause()
         else:
             self.mediaPlayer.play()
+            #self.mediaPlayer.setVideoOutput(self.videoWidget)
 
     def screenShot(self): 
-        w = QtWidgets.QWidget()
+        self.grabber = VideoFrameGrabber(self.videoWidget, self)
+        self.mediaPlayer.setVideoOutput(self.grabber)
+        self.grabber.frameAvailable.connect(self.process_frame)
+        #self.errorLabel.setText("Taking a screenshot of image "+str(self.counter)+" ....")
+        self.mediaPlayer.pause()
 
-        screen = QtWidgets.QApplication.primaryScreen()
-        screenshot = screen.grabWindow(w.winId())
+        screen = app.primaryScreen()
+        screenshot = screen.grabWindow(0)
         screenshot.save('shot.jpg', 'jpg')
-        w.close()
 
-        print ("HE")
+    def process_frame(self, image):
+        # Save image here
+        filename = "hopethisworks" + str(self.counter).zfill(6)
+        self.path = './'
+        image.save(self.path+'/{}.png'.format(str(filename)))
+        self.counter = self.counter+1
+
 
     def mediaStateChanged(self, state):
         if self.mediaPlayer.state() == QMediaPlayer.PlayingState:
@@ -137,14 +150,10 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     player = VideoWindow()
 
-    w = QtWidgets.QWidget()
-    screen = QtWidgets.QApplication.primaryScreen()
-    screenshot = screen.grabWindow(w.winId())
-    screenshot.save('shot.jpg', 'jpg')
-    w.close()
-    
     player.openFile()
     player.resize(1500, 1500)
     player.show()
+
+
     sys.exit(app.exec_())
     

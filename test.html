@@ -1,0 +1,80 @@
+
+<html lang="en">
+<head>
+	<meta charset=utf-8>
+	<title>Testing</title>
+	
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+
+<body>
+   <div id="message"></div>
+   <input type="file" accept="video/*"/>
+
+    
+    <video controls autoplay></video>
+
+    <canvas width="364" height="204"></canvas>
+
+    <button id="snap" onclick="snap()">Take screenshot</button>
+
+	<script>
+	//PLaying the video 
+    var URL = window.URL || window.webkitURL
+	var playSelectedFile = function (event){
+		var file = this.files[0]
+		var videoNode = document.querySelector('video')
+		var fileURL = URL.createObjectURL(file)
+		videoNode.src = fileURL
+	}
+    
+	var inputNode = document.querySelector('input')
+	inputNode.addEventListener('change', playSelectedFile, false)
+
+	// Handling size of video 
+	var canvas = document.querySelector('canvas')
+	var videoNode = document.querySelector('video')
+	var context = canvas.getContext('2d');
+	videoNode.setAttribute('height', '350')
+	videoNode.setAttribute('width', '600')
+    
+	//Handline size of screenshot canvas
+	var w, h, ratio;
+		
+	// Add a listener to wait for the 'loadedmetadata' state so the video's dimensions can be read
+	videoNode.addEventListener('loadedmetadata', function() {
+		// Calculate the ratio of the video's width to height
+		ratio = 600/350;//videoNode.videoWidth / videoNode.videoHeight;
+		// Define the required width as 100 pixels smaller than the actual video's width
+		w = 600 - 100;//w - 100
+		// Calculate the height based on the video's width and the ratio
+		h = parseInt(w / ratio, 10);
+		// Set the canvas width and height to the values just calculated
+		
+		canvas.width = w;
+		canvas.height = h;			
+	}, false);
+
+
+    // Takes a snapshot of the video
+	function snap() {
+		// Define the size of the rectangle that will be filled (basically the entire element)
+		context.fillRect(0, 0, w, h);
+		// Grab the image from the video
+		context.drawImage(videoNode, 0, 0, w, h);
+		var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+
+
+		window.location.href=image;
+	}
+
+
+	</script>
+
+	   
+    <footer>
+		<small>&copy; copyright 2006, Blender Foundation / Netherlands Media Art Institute / <a href="http://www.elephantsdream.org">www.elephantsdream.org</a></small>
+	</footer>
+</body>
+</html>
