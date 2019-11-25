@@ -31,7 +31,7 @@ select {
   top: 60%;
   font-size: 15px;
   width: 120px;
-
+  cursor: pointer;
   padding: 5px 35px 5px 5px;
   
   
@@ -56,11 +56,30 @@ h3 {
 	overflow: scroll;
 }
 
-button {
+.button {
 	position: absolute;
-	top:75%;
-	left: 8%;
+	top: 75%;
+  left: 8%;
+  color: black;
 	background-color: orange;
+  padding: 8px;
+  text-align: center;
+  display: inline-block;
+  font-size: 11px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 12px;
+}
+
+.buttonS1
+{
+  position: absolute;
+  background-color: green;
+  border-radius: 12px;
+  top: 82%;
+  right: 4%;
+  padding: 8px;
+
 }
 
 video {

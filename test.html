@@ -18,20 +18,21 @@
 
     <canvas width="364" height="204"></canvas>
 
-    <button id="snap" onclick="snap()">Take screenshot</button>
+    <span class="button" id="snap" onclick="snap()">Take screenshot</button> </span>
+    <span class="buttonS1" id="save" onclick="save()">Save</button> </span>
 
     <!-- Drop down menu --> 
     <select id="Criteria1">
-	  <option selected>Condition</option>
+      <option selected>Save as</option>
+	  <option>Condition</option>
 	  <option>Score</option>
 	  <option>Repair</option>
-	  <option>Fix</option>
 	</select>
 
 	<!-- Input box --> 
 	<h3>
     	<div>
-    	<textarea name="textarea" style="width:250px;height:50px;"></textarea>
+    	<textarea name="textarea" Id="textarea" style="width:250px;height:50px;"></textarea>
     	</div>
     </h3>
 
@@ -82,24 +83,34 @@
 		context.fillRect(0, 0, w, h);
 		// Grab the image from the video
 		context.drawImage(videoNode, 0, 0, w, h);
-		var image = canvas.toDataURL("image/png");
-		console.log("HEE");
-		localStorage.setItem("videoNode", image);
-		console.log("HEE");
-		//var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-		//window.location.href=image;
+
+
+	}
+
+	function save() {
+     
+		var download = document.createElement('a');
+
+		// Get details from user input
+		var cval2 = document.getElementsByName("textarea");
+		var cval = document.getElementById("textarea");
+
+		//Insert details to photo
+		var str = cval2.option;// = 'red';
+		//str.fontcolor("blue")
+		context.fillText(str, 250, 150);
+
+		var image_URL = canvas.toDataURL(videoNode); //URL for image
+		download.href = image_URL;
+
+
+		// Handle if no details supplied for name of image
+		download.download = cval.value.concat('.png');
+		download.click();
+
 	}
 	</script>
 
-
-
-
-	<!-- Javascript that handles serialization with Python --> 
-	<script> 
-		var chosen_val = document.getElementById("Criteria1");
-		var criteria_1 = chosen_val.options[chosen_val.selectedIndex].text;
-		var ans_1 = document.getElementBy
-	</script>
 
 	   
     <footer>
