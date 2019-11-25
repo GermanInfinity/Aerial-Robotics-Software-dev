@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 
+<h1> <font color="white">Aerial Robotix Reporting tool </h1>
 
 <body>
    <div id="message"></div>
-   <input type="file" accept="video/*"/>
 
+   <h2> <input type="file" accept="video/*"/> </h2>
     
     <video controls autoplay></video>
 
@@ -19,8 +20,26 @@
 
     <button id="snap" onclick="snap()">Take screenshot</button>
 
+    <!-- Drop down menu --> 
+    <select id="Criteria1">
+	  <option selected>Condition</option>
+	  <option>Score</option>
+	  <option>Repair</option>
+	  <option>Fix</option>
+	</select>
+
+	<!-- Input box --> 
+	<h3>
+    	<div>
+    	<textarea name="textarea" style="width:250px;height:50px;"></textarea>
+    	</div>
+    </h3>
+
+
+
+    <!-- Javascript that handles uploading and playing video -->
 	<script>
-	//PLaying the video 
+	//Playing the video 
     var URL = window.URL || window.webkitURL
 	var playSelectedFile = function (event){
 		var file = this.files[0]
@@ -63,18 +82,28 @@
 		context.fillRect(0, 0, w, h);
 		// Grab the image from the video
 		context.drawImage(videoNode, 0, 0, w, h);
-		var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-
-
-		window.location.href=image;
+		var image = canvas.toDataURL("image/png");
+		console.log("HEE");
+		localStorage.setItem("videoNode", image);
+		console.log("HEE");
+		//var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+		//window.location.href=image;
 	}
+	</script>
 
 
+
+
+	<!-- Javascript that handles serialization with Python --> 
+	<script> 
+		var chosen_val = document.getElementById("Criteria1");
+		var criteria_1 = chosen_val.options[chosen_val.selectedIndex].text;
+		var ans_1 = document.getElementBy
 	</script>
 
 	   
     <footer>
-		<small>&copy; copyright 2006, Blender Foundation / Netherlands Media Art Institute / <a href="http://www.elephantsdream.org">www.elephantsdream.org</a></small>
+		<small>&copy; copyright 2019, Aerial Robotix / developed by. Akwarandu Ugo Nwachuku / <a href="github.com/GermanInfinity">www.elephantsdream.org</a></small>
 	</footer>
 </body>
 </html>
