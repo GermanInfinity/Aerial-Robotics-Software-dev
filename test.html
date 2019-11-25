@@ -32,7 +32,7 @@
 	<!-- Input box --> 
 	<h3>
     	<div>
-    	<textarea name="textarea" Id="textarea" style="width:250px;height:50px;"></textarea>
+    	<textarea name="textarea" Id="Saveas" style="width:250px;height:50px;"></textarea>
     	</div>
     </h3>
 
@@ -83,8 +83,8 @@
 		context.fillRect(0, 0, w, h);
 		// Grab the image from the video
 		context.drawImage(videoNode, 0, 0, w, h);
-
-
+		context.font = "17px Georgia";
+		context.fillStyle = 'red';
 	}
 
 	function save() {
@@ -92,19 +92,17 @@
 		var download = document.createElement('a');
 
 		// Get details from user input
-		var cval2 = document.getElementsByName("textarea");
-		var cval = document.getElementById("textarea");
+		var cval = document.getElementById("Saveas");
+		var key1 = document.getElementById("Criteria1");
+		var cr1 = key1.options[key1.selectedIndex].text;
 
 		//Insert details to photo
-		var str = cval2.option;// = 'red';
-		//str.fontcolor("blue")
-		context.fillText(str, 250, 150);
+		context.fillText(cr1.concat(": "), 2, canvas.height - 70);
+		context.fillText(cval.value, 65, canvas.height - 70);
 
 		var image_URL = canvas.toDataURL(videoNode); //URL for image
 		download.href = image_URL;
 
-
-		// Handle if no details supplied for name of image
 		download.download = cval.value.concat('.png');
 		download.click();
 
