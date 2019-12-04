@@ -4,7 +4,7 @@
 	<meta charset=utf-8>
 	<title>APX(dev)</title>
 	
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style2.css" />
 </head>
 
 <h1> <font color="white">Aerial Robotix Reporting tool </h1>
@@ -21,22 +21,24 @@
     <span class="button" id="snap" onclick="snap()">Take screenshot</button> </span>
     <span class="buttonS1" id="save" onclick="save()">Save</button> </span>
 
-    <!-- Drop down menu --> 
-    <select id="Criteria1">
-      <option selected>Save as</option>
-	  <option>Condition</option>
-	  <option>Score</option>
-	  <option>Repair</option>
-	</select>
 
-	<!-- Input box --> 
-	<h3>
+	<!-- Input area and boxes--> 
+	<h3> Save as </h3>
+	<h4>
     	<div>
-    	<textarea name="textarea" Id="Saveas" style="width:250px;height:50px;"></textarea>
+    	<textarea name="textarea" Id="saveas" style="width:250px;height:50px;"></textarea>
     	</div>
-    </h3>
+    </h4>
+    <h5> Condition </h5>
+	<h6>
+    	<div>
+    	<textarea name="textarea" Id="condition" style="width:250px;height:50px;"></textarea>
+    	</div>
+    </h6>
 
-
+    <h4>
+    <button type="button" onclick="onMic()"></button>
+   </h4>
 
     <!-- Javascript that handles uploading and playing video -->
 	<script>
@@ -72,20 +74,25 @@
 		h = parseInt(w / ratio, 10);
 		// Set the canvas width and height to the values just calculated
 		
-		canvas.width = w;
-		canvas.height = h;			
+		//w = w + 250; //Add space to the right for text
+		//h = h + 100; //Make image bigger
+		canvas.width = w + 200;
+		canvas.height = h; 		
 	}, false);
 
 
     // Takes a snapshot of the video
 	function snap() {
-		// Define the size of the rectangle that will be filled (basically the entire element)
+		// Define the size of the rectangle that will be filled 
 		context.fillRect(0, 0, w, h);
 		// Grab the image from the video
 		context.drawImage(videoNode, 0, 0, w, h);
-		context.font = "17px Georgia";
-		context.fillStyle = 'red';
-		videoNode.pause
+		//Place box next to image
+		context.fillRect(w, 0, w+100, h);
+
+		context.font = "14px Helvetica";
+		context.fillStyle = 'white';
+		videoNode.pause();
 	}
 
 	function save() {
@@ -93,21 +100,46 @@
 		var download = document.createElement('a');
 
 		// Get details from user input
-		var cval = document.getElementById("Saveas");
-		var key1 = document.getElementById("Criteria1");
-		var cr1 = key1.options[key1.selectedIndex].text;
+		var sav = document.getElementById("saveas");
+		var cr1 = "Save as";
+
+		var con = document.getElementById("condition");
+		var cr2 = "Condition";
 
 		//Insert details to photo
-		context.fillText(cr1.concat(": "), 2, canvas.height - 70);
-		context.fillText(cval.value, 65, canvas.height - 70);
+		context.fillText(cr1.concat(": "), 500, canvas.height - 250);
+		context.fillText(sav.value, 575, canvas.height - 250);
+
+		//Insert details to photo
+		context.fillText(cr2.concat(": "), 500, canvas.height - 200);
+		context.fillText(con.value, 575, canvas.height - 200);
 
 		var image_URL = canvas.toDataURL(videoNode); //URL for image
+        
 		download.href = image_URL;
 
-		download.download = cval.value.concat('.png');
+		download.download = sav.value.concat('.png');
 		download.click();
 
 	}
+
+	async function onMic() {
+        let stream = null;
+
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({video: true});
+          var video = document.querySelector('video');
+          video.srcObject = stream;
+          video.onloadedmetadata = function(e) { 
+          	console.log("SHEY");
+          	video.play();
+          	 };
+
+        } catch(err) { 
+          console.log("Error");
+        }
+    }
+
 	</script>
 
 

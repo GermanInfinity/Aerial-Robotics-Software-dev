@@ -14,57 +14,63 @@ h1 {
 
 h2 {
     position: absolute;
-    top: 70%;
-    left: 7%;
+    top: 8%;
+    left: 75%;
 
-}
-h4 {
-  position: absolute;
-  top: 5%;
-  left: 5%;
-}
-
-select {
-  position: absolute;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background: url(robfav.png) 96% / 15% no-repeat #EEE;
-  background-color: #d1d1e0;
-  position: absolute;
-  left: 52%;
-  top: 60%;
-  font-size: 15px;
-  width: 120px;
-  cursor: pointer;
-  padding: 5px 35px 5px 5px;
-  
-  
-  height: 34px;
-}
-/* CAUTION: Internet Explorer hackery ahead */
-select::-ms-expand {
-    display: none; /* Remove default arrow in Internet Explorer 10 and 11 */
-}
-/* Target Internet Explorer 9 to undo the custom arrow */
-@media screen and (min-width:0\0) {
-    select {
-        background: none\9;
-        padding: 5px\9;
-    }
 }
 
 h3 {
   position: absolute;
-  left: 60%;
-  top: 58%;
+  border-radius: 5px;
+  background-color: #d1d1e0;
+
+  font-style: normal;
+  color: black;
+  left: 8%;
+  top: 49%;
+  font-size: 15px;
+  width: 60px;
+  height: 10px;
+  cursor: pointer;
+  padding: 5px 35px 10px 5px;
+
+}
+h4 {
+  position: absolute;
+  left: 8%;
+  top: 51%;
   overflow: scroll;
 }
 
+h5 {
+  position: absolute;
+  border-radius: 5px;
+  background-color: #d1d1e0;
+
+  font-style: normal;
+  color: black;
+  left: 8%;
+  top: 57%;
+  font-size: 15px;
+  width: 60px;
+  height: 10px;
+  cursor: pointer;
+  padding: 5px 35px 10px 5px;
+
+}
+h6 {
+  position: absolute;
+  left: 8%;
+  top: 60%;
+  overflow: scroll;
+}
+
+
+
 .button {
   position: absolute;
-  top: 75%;
-  left: 8%;
+  top: 13%;
+  left: 75%;
   color: black;
   background-color: orange;
   padding: 8px;
@@ -89,15 +95,15 @@ h3 {
 
 video {
   position: absolute;
-  top: 31%;
-  left: 7%;
+  top: 5%;
+  left: 33%;
 }
 
 canvas {
   border:4px solid #000;
   position: absolute;
-  top: 34%;
-    left: 51%;
+  top: 50%;
+  left: 42%;
 }
 
 footer { 
@@ -110,3 +116,4 @@ footer {
     width: 50%;
 
 }
+
