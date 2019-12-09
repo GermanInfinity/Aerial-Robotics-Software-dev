@@ -36,9 +36,6 @@
     	</div>
     </h6>
 
-    <h4>
-    <button type="button" onclick="onMic()"></button>
-   </h4>
 
     <!-- Javascript that handles uploading and playing video -->
 	<script>
@@ -123,22 +120,22 @@
 
 	}
 
-	async function onMic() {
-        let stream = null;
+	// async function onMic() {
+ //        let stream = null;
 
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({video: true});
-          var video = document.querySelector('video');
-          video.srcObject = stream;
-          video.onloadedmetadata = function(e) { 
-          	console.log("SHEY");
-          	video.play();
-          	 };
+ //        try {
+ //          stream = await navigator.mediaDevices.getUserMedia({video: true});
+ //          var video = document.querySelector('video');
+ //          video.srcObject = stream;
+ //          video.onloadedmetadata = function(e) { 
+ //          	console.log("SHEY");
+ //          	video.play();
+ //          	 };
 
-        } catch(err) { 
-          console.log("Error");
-        }
-    }
+ //        } catch(err) { 
+ //          console.log("Error");
+ //        }
+ //    }
 
 	</script>
 
